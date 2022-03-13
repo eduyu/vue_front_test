@@ -71,7 +71,7 @@ export default {
         .catch(err => console.error(err))
     },
 
-    getCurrentUser({ commit, getters }) {
+    fetchCurrentUser({ commit, getters }) {
       if (getters.isLoggedIn) {
         axios.get(drf.accounts.currentUserInfoUrl(), getters.config)
         .then(res => {

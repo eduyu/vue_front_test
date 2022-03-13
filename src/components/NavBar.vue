@@ -16,7 +16,7 @@
         <router-link :to="{ name: 'articleNew' }">New</router-link>
       </li>
       <li v-if="isLoggedIn">
-        <router-link :to="{ name: 'profile', params: { username: currentUser.username } }">
+        <router-link :to="{ name: 'profile', params: { username } }">
           {{ currentUser.username }}'s page
         </router-link>
       </li>
@@ -34,10 +34,10 @@ export default {
   name: 'NavBar',
   computed: {
     ...mapGetters(['isLoggedIn', 'currentUser']),
+    username() {
+      return this.currentUser.username ? this.currentUser.username : 'guest'
+    }
   },
-  methods: {
-
-  }
 }
 </script>
 

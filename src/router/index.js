@@ -81,7 +81,6 @@ const router = new VueRouter({
 // Navigation Guard
 router.beforeEach((to, from, next) => {
   // 이전 페이지에서 발생한 에러메시지 삭제
-  console.log(to)
   store.commit('SET_AUTH_ERROR', null)
 
   const { isLoggedIn } = store.getters
@@ -99,54 +98,10 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+
+  if (!isAuthRequired && isLoggedIn) {
+    next({ name: 'articles'})
+  }
 })
 
 export default router
-
-// const routes = [
-//   // 인증 필요 없음
-//   {
-//     path: '/login',
-//     name: 'login',
-//     component: LoginView,
-//   },
-//   {
-//     path: '/signup',
-//     name: 'signup',
-//     component: SignupView,
-//   },
-//   // 인증 필요
-//   {
-//     path: '/articles/new',
-//     name: 'articleNew',
-//     component: ArticleNewView,
-//   },
-//   {
-//     path: '/articles/:articlePk/edit',
-//     name: 'articleEdit',
-//     component: ArticleEditView,
-//   },
-// ]
-
-
-// router.beforeEach((to, from, next) => {
-//   console.log(to)
-//   // 이전 페이지에서 발생한 에러메시지 삭제
-//   store.commit('SET_AUTH_ERROR', null)
-
-//   const { isLoggedIn } = store.getters
-
-//   // Login 필요 없는 route의 name
-//   const noAuthPages = ['login', 'signup', ]
-
-//   // 현재 이동하고자 하는 페이지가 Authentication이 필요한가?
-//   const isAuthRequired = !noAuthPages.includes(to.name)
-
-//   // Auth가 필요한데, 로그인 되어있지 않다면?
-//   if (isAuthRequired && !isLoggedIn) {
-//     alert('Require Login. Redirecting..')
-//     next({ name: 'login' })
-//   } else {
-//     next()
-//   }
-// })
