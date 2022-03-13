@@ -5,9 +5,8 @@
     <p>
       {{ article.content }}
     </p>
-    
     <!-- Article Edit/Delete UI -->
-    <div v-if="currentUser.username === article.user.username">
+    <div v-if="isAuthor">
       <router-link :to="{ name: 'articleEdit', params: { articlePk: article.pk} }">
         <button>Edit</button>
       </router-link> | 
@@ -40,7 +39,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['article', 'currentUser']),
+    ...mapGetters(['article', 'currentUser', 'isAuthor']),
     like_count() {
       // return article.like_users ? this.article.like_users.length : undefined
       return this.article.like_users?.length

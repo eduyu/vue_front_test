@@ -13,8 +13,11 @@ export default {
 
   getters: {
     articles: state => state.articles,
-    // popularArticles: state => ,
-    article: state => state.article
+    article: state => state.article,
+    isAuthor: (state, rootGetters) => {
+      // state.article.user.username === rootGetters.currentUser.user.username
+      state.article.user?.username === rootGetters.currentUser?.user?.username
+    }
   }, 
 
   mutations: {
@@ -37,11 +40,15 @@ export default {
         .then(res => {
           commit('SET_ARTICLE', res.data)
         })
-        .catch(err => console.error(err.response))
+        .catch(err => {
+          console.error(err.response)
+          if (err.response.status === 404) {
+            router.push({ name: 'NotFound404' })
+          }
+        })
       },
       
     createArticle({ commit, getters, rootGetters }, { title, content }){
-      console.log(title, content)
       const body = { title, content }
       axios.post(drf.articles.articles(), body, rootGetters.config)
         .then(res => {
