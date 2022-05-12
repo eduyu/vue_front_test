@@ -1,5 +1,5 @@
 // const HOST = 'http://localhost:8000/api/v1/'
-const HOST = 'https://eduneo.link:443/api/v1/'
+const HOST = 'https://eduneo.link/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 const ARTICLES = 'articles/'
