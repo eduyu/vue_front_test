@@ -1,10 +1,11 @@
-const HOST = 'http://localhost:8000/api/v1/'
+// const HOST = 'http://localhost:8000/api/v1/'
+const HOST = 'https://eduneo.link:443/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 const ARTICLES = 'articles/'
 const COMMENTS = 'comments/'
 
-export default{
+export default {
   accounts: {
     loginUrl: () => HOST + ACCOUNTS + 'login/',
     logoutUrl: () => HOST + ACCOUNTS + 'logout/',
@@ -13,13 +14,13 @@ export default{
     currentUserInfoUrl: () => HOST + ACCOUNTS + 'user/',
     // username으로 프로필 제공
     profileUrl: username => HOST + ACCOUNTS + 'profile/' + username,
-
   },
   articles: {
     articles: () => HOST + ARTICLES,
     article: articlePk => HOST + ARTICLES + `${articlePk}/`,
     likeArticle: articlePk => HOST + ARTICLES + `${articlePk}/` + 'like/',
     comments: articlePk => HOST + ARTICLES + `${articlePk}/` + COMMENTS,
-    comment: (articlePk, commentPk) => HOST + ARTICLES + `${articlePk}/` + COMMENTS + `${commentPk}/`
-  }
+    comment: (articlePk, commentPk) =>
+      HOST + ARTICLES + `${articlePk}/` + COMMENTS + `${commentPk}/`,
+  },
 }

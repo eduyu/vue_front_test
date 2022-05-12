@@ -13,7 +13,6 @@ import SignupView from '@/views/SignupView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import NotFound404 from '../views/NotFound404.vue'
 
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -36,9 +35,9 @@ const routes = [
   {
     path: '/profile/:username',
     name: 'profile',
-    component: ProfileView
+    component: ProfileView,
   },
-  
+
   // Articles
   {
     path: '/articles',
@@ -63,19 +62,18 @@ const routes = [
   {
     path: '/404',
     name: 'NotFound404',
-    component: NotFound404
+    component: NotFound404,
   },
   {
     path: '*',
-    redirect: '/404'
-  }
-  
+    redirect: '/404',
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 })
 
 // Navigation Guard
@@ -86,7 +84,7 @@ router.beforeEach((to, from, next) => {
   const { isLoggedIn } = store.getters
 
   // Login 필요 없는 route의 name
-  const noAuthPages = ['login', 'signup', ]
+  const noAuthPages = ['login', 'signup']
 
   // 현재 이동하고자 하는 페이지가 Authentication이 필요한가?
   const isAuthRequired = !noAuthPages.includes(to.name)
@@ -100,7 +98,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (!isAuthRequired && isLoggedIn) {
-    next({ name: 'articles'})
+    next({ name: 'articles' })
   }
 })
 

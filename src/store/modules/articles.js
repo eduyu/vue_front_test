@@ -8,7 +8,7 @@ import drf from '@/api/drf'
 export default {
   state: {
     articles: [],
-    article: {}
+    article: {},
   },
 
   getters: {
@@ -16,27 +16,32 @@ export default {
     article: state => state.article,
     isAuthor: (state, getters) => {
       // return state.article.user.username === getters.currentUser.user.username
-      return state.article.user?.username === getters.currentUser?.user?.username
-    }
-  }, 
+      return (
+        state.article.user?.username === getters.currentUser?.user?.username
+      )
+    },
+  },
 
   mutations: {
-    SET_ARTICLES: (state, articles) => state.articles = articles,
-    SET_ARTICLE: (state, article) => state.article = article,
-    SET_ARTICLE_COMMENTS: (state, comments) => state.article.comments = comments,
+    SET_ARTICLES: (state, articles) => (state.articles = articles),
+    SET_ARTICLE: (state, article) => (state.article = article),
+    SET_ARTICLE_COMMENTS: (state, comments) =>
+      (state.article.comments = comments),
   },
 
   actions: {
     fetchArticles({ commit, getters }) {
-      axios.get(drf.articles.articles(), getters.config)
-      .then(res => {
-        commit('SET_ARTICLES', res.data)
-      })
-      .catch(err => console.error(err.response))
+      axios
+        .get(drf.articles.articles(), getters.config)
+        .then(res => {
+          commit('SET_ARTICLES', res.data)
+        })
+        .catch(err => console.error(err.response))
     },
-    
+
     fetchArticle({ commit, getters }, { articlePk }) {
-      axios.get(drf.articles.article(articlePk), getters.config)
+      axios
+        .get(drf.articles.article(articlePk), getters.config)
         .then(res => {
           commit('SET_ARTICLE', res.data)
         })
@@ -46,31 +51,39 @@ export default {
             router.push({ name: 'NotFound404' })
           }
         })
-      },
-      
-    createArticle({ commit, getters }, { title, content }){
+    },
+
+    createArticle({ commit, getters }, { title, content }) {
       const body = { title, content }
-      axios.post(drf.articles.articles(), body, getters.config)
+      axios
+        .post(drf.articles.articles(), body, getters.config)
         .then(res => {
           commit('SET_ARTICLE', res.data)
-          router.push({ name: 'article', params: { articlePk: getters.article.pk }})
+          router.push({
+            name: 'article',
+            params: { articlePk: getters.article.pk },
+          })
         })
         .catch(err => console.error(err.response))
-
     },
 
     updateArticle({ commit, getters }, { title, content, articlePk }) {
       const body = { title, content }
-      axios.put(drf.articles.article(articlePk), body, getters.config)
+      axios
+        .put(drf.articles.article(articlePk), body, getters.config)
         .then(res => {
           commit('SET_ARTICLE', res.data)
-          router.push({ name: 'article', params: { articlePk: getters.article.pk }})
+          router.push({
+            name: 'article',
+            params: { articlePk: getters.article.pk },
+          })
         })
         .catch(err => console.error(err.response))
     },
 
     deleteArticle({ commit, getters }, { articlePk }) {
-      axios.delete(drf.articles.article(articlePk), getters.config)
+      axios
+        .delete(drf.articles.article(articlePk), getters.config)
         .then(() => {
           commit('SET_ARTICLE', {})
           router.push({ name: 'articles' })
@@ -79,7 +92,8 @@ export default {
     },
 
     likeArticle({ commit, getters }, { articlePk }) {
-      axios.post(drf.articles.likeArticle(articlePk), {}, getters.config)
+      axios
+        .post(drf.articles.likeArticle(articlePk), {}, getters.config)
         .then(res => {
           commit('SET_ARTICLE', res.data)
         })
@@ -88,16 +102,18 @@ export default {
 
     createComment({ commit, getters }, { articlePk, content }) {
       const body = { content }
-      axios.post(drf.articles.comments(articlePk), body, getters.config)
+      axios
+        .post(drf.articles.comments(articlePk), body, getters.config)
         .then(res => {
-           commit('SET_ARTICLE_COMMENTS', res.data)
+          commit('SET_ARTICLE_COMMENTS', res.data)
         })
         .catch(err => console.error(err.response))
     },
 
     updateComment({ commit, getters }, { articlePk, commentPk, content }) {
       const body = { content }
-      axios.put(drf.articles.comment(articlePk, commentPk), body, getters.config)
+      axios
+        .put(drf.articles.comment(articlePk, commentPk), body, getters.config)
         .then(res => {
           commit('SET_ARTICLE_COMMENTS', res.data)
         })
@@ -105,13 +121,12 @@ export default {
     },
 
     deleteComment({ commit, getters }, { articlePk, commentPk }) {
-      axios.delete(drf.articles.comment(articlePk, commentPk), getters.config)
+      axios
+        .delete(drf.articles.comment(articlePk, commentPk), getters.config)
         .then(res => {
           commit('SET_ARTICLE_COMMENTS', res.data)
         })
         .catch(err => console.error(err.response))
     },
-
   },
 }
-
